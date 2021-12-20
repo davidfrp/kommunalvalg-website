@@ -11,6 +11,20 @@ const candidateService = {
     findByParty: (party) => {
         return fetch(`${apiUrl}/parties/${party}/candidates`)
             .then(response => response.json());
+    },
+    deleteById: (id) => {
+        return fetch(`${apiUrl}/candidates/${id}`, {
+            method: 'DELETE'
+        }).then(response => response.json());
+    },
+    save: (candidate) => {
+        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(candidate)
+        }).then(response => response.json());
     }
 };
 

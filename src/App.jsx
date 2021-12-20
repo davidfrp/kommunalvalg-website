@@ -1,23 +1,12 @@
-import partyService from './services/partyService';
-import { useState, useEffect } from 'react';
-import PartyList from './components/PartyList';
+import CandidateList from './components/CandidateList';
 
 function App() {
-    const [parties, setParties] = useState([]);
-    
-    useEffect(() => {
-        async function fetchData() {
-            setParties(await partyService.findAll());
-        }
-        fetchData();
-    }, []);
-
     return (
         <main>
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
+            <h1 className="text-3xl font-bold underline mb-4">
+                Filtér kandidaterne her
             </h1>
-            <PartyList parties={parties} />
+            <CandidateList />
         </main>
     );
 }
