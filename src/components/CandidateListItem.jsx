@@ -2,17 +2,13 @@ import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import candidateService from "../services/candidateService";
 
-function Candidate(props) {
+function CandidateListItem(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [candidate, setCandidate] = useState();
 
     useEffect(() => {
-        setCandidate({
-            name: props.name,
-            amountOfVotes: props.amountOfVotes,
-            party: props.party
-        });
-    }, [props.name, props.party]);
+        setCandidate(props.candidate);
+    }, [props.candidate]);
 
     const handleModalClose = () => {
         setIsModalOpen(false);
@@ -29,12 +25,16 @@ function Candidate(props) {
         });
     };
 
-    const handleModalSubmit = () => {
+    const handleModalSubmit = (e) => {
+        e.preventDefault();
         candidateService.save(candidate);
+        props.onCandidateChanged(candidate);
+        handleModalClose();
     };
 
     const handleDeleteCandidate = () => {
-        candidateService.deleteById(candidate.id);
+        candidateService.delete(candidate);
+        props.onCandidateRemoved(candidate);
     };
     
     return (
@@ -42,7 +42,7 @@ function Candidate(props) {
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleModalClose}
-                title={props.name}>
+                title={props.candidate.name}>
                 <form onSubmit={handleModalSubmit} className="flex flex-col">
                     <label>
                         Name
@@ -57,17 +57,16 @@ function Candidate(props) {
                 </form>
             </Modal>
             <div className="flex items-center">
-                <div style={{backgroundColor: props.party.hexColor}}
+                <div style={{backgroundColor: props.candidate.party.hexColor}}
                     className="text-white h-12 w-12 flex items-center justify-center">
-                    <span className="font-bold text-2xl">{props.party.signature}</span>
+                    <span className="font-bold text-2xl">{props.candidate.party.signature}</span>
                 </div>
-                <h1 className="flex-1 mx-2 text-lg whitespace-nowrap overflow-hidden text-ellipsis">{props.name}</h1>
-                {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
-                <button onClick={handleModalOpen} className="p-2 bg-emerald-500 hover:bg-emerald-400">Rediger</button>
-                <button onClick={handleDeleteCandidate} className="p-2 bg-emerald-500 hover:bg-emerald-400">Fjern kandidat</button>
+                <h1 className="flex-1 mx-2 text-lg whitespace-nowrap overflow-hidden text-ellipsis">{props.candidate.name}</h1>
+                <button onClick={handleModalOpen} className="p-2 hover:underline">Rediger</button>
+                <button onClick={handleDeleteCandidate} className="p-2 hover:underline">Fjern</button>
             </div>
         </div>
     );
 }
 
-export default Candidate;
+export default CandidateListItem;

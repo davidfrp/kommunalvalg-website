@@ -1,25 +1,31 @@
 import Modal from "./Modal";
-import Candidate from "./Candidate";
+import CandidateListItem from "./CandidateListItem";
 import candidateService from "../services/candidateService";
 import { useState, useEffect } from "react";
 
-function CandidateList() {
-    const [candidates, setCandidates] = useState([]);
-    
-    useEffect(() => {
-        async function fetchData() {
-            setCandidates(await candidateService.findAll());
-        }
-        fetchData();
-    }, []);
+function CandidateList(props) {
+    const handleCandidateChanged = (candidate) => {
+        const candidates = props.candidates.map(c => {
+            if (c.id === candidate.id) {
+                return candidate;
+            }
+            return c;
+        });
 
-    return (
-        candidates.map(c =>
-            <Candidate 
-                key={c.id} 
-                name={c.name} 
-                amountOfVotes={c.amountOfVotes}
-                party={c.party} />)
+        props.onCandidatesChanged(candidates);
+    };
+
+    const handleCandidateRemoved = (candidate) => {
+        const candidates = props.candidates.filter(c => c.id !== candidate.id);
+        props.onCandidatesChanged(candidates);
+    };
+
+    return props.filteredCandidates.map(c => 
+        <CandidateListItem 
+            key={c.id} 
+            candidate={c} 
+            onCandidateChanged={handleCandidateChanged} 
+            onCandidateRemoved={handleCandidateRemoved} />
     );
 }
 

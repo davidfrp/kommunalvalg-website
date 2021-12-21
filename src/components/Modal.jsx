@@ -30,10 +30,10 @@ function Modal(props) {
                 overflow-hidden pb-[env(safe-area-inset-bottom)]
                 sm:left-1/2 sm:-translate-x-1/2 sm:top-1/2 sm:-translate-y-1/2
                 sm:bottom-auto sm:max-w-md">
-                <header className="p-4 pt-8">
+                <header className="p-6 pt-8">
                     <h1 className="text-4xl font-semibold">{props.title}</h1>
                 </header>
-                <div className="p-4 max-h-[calc(100vh-2rem)] 
+                <div className="p-6 max-h-[calc(100vh-2rem)] 
                     overflow-hidden overflow-y-auto">
                     {props.children}
                 </div>

@@ -1,6 +1,10 @@
 const apiUrl = 'http://localhost:8080';
 const candidateService = {
-    findAll: (page = 1, perPage = 10) => {
+    findAll: () => {
+        return fetch(`${apiUrl}/candidates`)
+            .then(response => response.json());
+    },
+    findAllPageable: (page, perPage) => {
         return fetch(`${apiUrl}/candidates?page=${page}&perPage=${perPage}`)
             .then(response => response.json());
     },
@@ -12,19 +16,19 @@ const candidateService = {
         return fetch(`${apiUrl}/parties/${party}/candidates`)
             .then(response => response.json());
     },
-    deleteById: (id) => {
-        return fetch(`${apiUrl}/candidates/${id}`, {
+    delete: (candidate) => {
+        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates/${candidate.id}`, {
             method: 'DELETE'
         }).then(response => response.json());
     },
     save: (candidate) => {
-        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates`, {
-            method: 'POST',
+        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates/${candidate.id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(candidate)
-        }).then(response => response.json());
+        });
     }
 };
 

@@ -1,12 +1,12 @@
-import CandidateList from './components/CandidateList';
+import FilterableCandidateView from "./components/FilterableCandidateView";
 
 function App() {
     return (
         <main>
-            <h1 className="text-3xl font-bold underline mb-4">
-                Filtér kandidaterne her
+            <h1 className="text-3xl font-bold mb-4">
+                Kandidater fra Københavns Kommune
             </h1>
-            <CandidateList />
+            <FilterableCandidateView />
         </main>
     );
 }
