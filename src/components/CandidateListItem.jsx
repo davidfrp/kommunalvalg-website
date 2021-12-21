@@ -62,7 +62,8 @@ function CandidateListItem(props) {
                     <span className="font-bold text-2xl">{props.candidate.party.signature}</span>
                 </div>
                 <h1 className="flex-1 mx-2 text-lg whitespace-nowrap overflow-hidden text-ellipsis">{props.candidate.name}</h1>
-                <button onClick={handleModalOpen} className="p-2 hover:underline">Rediger</button>
+                <code className="mr-8">{props.candidate.amountOfVotes}</code>
+                <button onClick={handleModalOpen} className="p-2 hover:underline">Redigér navn</button>
                 <button onClick={handleDeleteCandidate} className="p-2 hover:underline">Fjern</button>
             </div>
         </div>
