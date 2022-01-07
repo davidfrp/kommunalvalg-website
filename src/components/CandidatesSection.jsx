@@ -3,10 +3,8 @@ import CandidateList from "./CandidateList";
 import DropdownSelection from "./DropdownSelection";
 import { useState, useEffect } from "react";
 import candidateService from "../services/candidateService";
-import partyService from "../services/partyService";
 
-function FilterableCandidateSection() {
-    const [parties, setParties] = useState([]);
+function FilterableCandidatesSection() {
     const [candidates, setCandidates] = useState([]);
     const [filteredCandidates, setFilteredCandidates] = useState([]);
 
@@ -16,7 +14,6 @@ function FilterableCandidateSection() {
 
     useEffect(() => {
         async function fetchData() {
-            setParties(await partyService.findAll());
             setCandidates(await candidateService.findAll());
         }
         fetchData();
@@ -51,32 +48,30 @@ function FilterableCandidateSection() {
                 <div className="flex flex-wrap gap-4">
                     <DropdownSelection 
                         label="Filtér efter" 
-                        onChanged={setFilterType}>
+                        onChange={setFilterType}>
                         <option value="">Alle partier</option>
-                        {parties.map(p => 
-                            <option key={p.signature} value={p.signature}>
+                        {[...new Set(candidates.map(c => JSON.stringify(c.party)))].map(JSON.parse).map(p => 
+                            <option key={p.id} value={p.signature}>
                                 {p.signature} - {p.name}
                             </option>
                         )}
                     </DropdownSelection>
                     <DropdownSelection 
-                        parties={parties} 
                         label="Sortér efter" 
                         defaultValue="votes"
-                        onChanged={setSortingType}>
+                        onChange={setSortingType}>
+                        <option value="votes">Antal stemmer</option>
                         <option value="name">Navn</option>
                         <option value="party">Parti</option>
-                        <option value="votes">Antal stemmer</option>
                     </DropdownSelection>
                 </div>
             </div>
             <CandidateList 
                 filteredCandidates={filteredCandidates} 
                 onCandidatesChanged={setCandidates} 
-                candidates={candidates} 
-                parties={parties} />
+                candidates={candidates} />
         </>
     );
 }
 
-export default FilterableCandidateSection;
+export default FilterableCandidatesSection;

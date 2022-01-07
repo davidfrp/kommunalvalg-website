@@ -1,5 +1,4 @@
-// const apiUrl = 'http://localhost:8080';
-const apiUrl = 'http://192.168.1.8:8080';
+const apiUrl = 'http://localhost:8080';
 const candidateService = {
     findAll: () => {
         return fetch(`${apiUrl}/candidates`)
@@ -14,22 +13,31 @@ const candidateService = {
             .then(response => response.json());
     },
     findByParty: (party) => {
-        return fetch(`${apiUrl}/parties/${party}/candidates`)
+        return fetch(`${apiUrl}/parties/${party.id}/candidates`)
             .then(response => response.json());
     },
     delete: (candidate) => {
-        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates/${candidate.id}`, {
+        return fetch(`${apiUrl}/parties/${candidate.party.id}/candidates/${candidate.id}`, {
             method: 'DELETE'
         }).then(response => response.json());
     },
+    create: (candidate) => {
+        return fetch(`${apiUrl}/parties/${candidate.party.id}/candidates`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(candidate)
+        }).then(response => response.json());
+    },
     save: (candidate) => {
-        return fetch(`${apiUrl}/parties/${candidate.party.abbreviation}/candidates/${candidate.id}`, {
+        return fetch(`${apiUrl}/parties/${candidate.party.id}/candidates/${candidate.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(candidate)
-        });
+        }).then(response => response.json());
     }
 };
 

@@ -23,7 +23,6 @@ function CandidateList(props) {
                 <CandidateListItem 
                     key={c.id} 
                     candidate={c} 
-                    parties={props.parties}
                     onCandidateChanged={handleCandidateChanged} 
                     onCandidateRemoved={handleCandidateRemoved} />
             )}
