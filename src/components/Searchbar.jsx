@@ -1,21 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 
 function Searchbar(props) {
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const inputRef = useRef(null);
 
     const handleChange = (e) => {
-        setSearchQuery(e.target.value);
+        setSearchTerm(e.target.value);
         props.onSearchChanged(e.target.value);
+    };
+
+    const handleClick = () => {
+        setSearchTerm("");
+        props.onSearchChanged("");
+        inputRef.current.focus();
     };
     
     return (
-        <div className="flex flex-1 flex-col mb-6 mr-2">
-            <input onChange={handleChange} value={searchQuery} placeholder="Søg efter en kandidat"
-                className="border-2 p-2 w-full mb-4" type="text" />
-            {searchQuery.length > 0 && (
-                <p>
-                    Viser resultater for <strong>{searchQuery}</strong>
-                </p>
+        <div className="mb-8 w-full">
+            <input type="text" ref={inputRef} onChange={handleChange} value={searchTerm}
+                className="p-2 w-full border-2" placeholder="Søg efter en kandidat" />
+            {searchTerm.length > 0 && (
+                <>
+                    <p className="mt-2">
+                        Viser resultater med "{searchTerm.trim()}"
+                    </p>
+                    <button onClick={handleClick} className="font-semibold hover:underline">Ryd søgning</button>
+                </>
             )}
         </div>
     );

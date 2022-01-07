@@ -1,4 +1,5 @@
-const apiUrl = 'http://localhost:8080';
+// const apiUrl = 'http://localhost:8080';
+const apiUrl = 'http://192.168.1.8:8080';
 const candidateService = {
     findAll: () => {
         return fetch(`${apiUrl}/candidates`)

@@ -8,6 +8,16 @@
     box-sizing: border-box !important;
 }
 
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: solid 2px #000;
+    outline-offset: 5px;
+    transition: outline-offset 0.2s !important;
+}
+
 #root {
     max-width: min(700px, calc(100% - 2rem));
     margin: 2rem auto;

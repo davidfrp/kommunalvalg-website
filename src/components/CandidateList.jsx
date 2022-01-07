@@ -1,7 +1,4 @@
-import Modal from "./Modal";
 import CandidateListItem from "./CandidateListItem";
-import candidateService from "../services/candidateService";
-import { useState, useEffect } from "react";
 
 function CandidateList(props) {
     const handleCandidateChanged = (candidate) => {
@@ -20,12 +17,17 @@ function CandidateList(props) {
         props.onCandidatesChanged(candidates);
     };
 
-    return props.filteredCandidates.map(c => 
-        <CandidateListItem 
-            key={c.id} 
-            candidate={c} 
-            onCandidateChanged={handleCandidateChanged} 
-            onCandidateRemoved={handleCandidateRemoved} />
+    return (
+        <div className="flex flex-col gap-0">
+            {props.filteredCandidates.map(c => 
+                <CandidateListItem 
+                    key={c.id} 
+                    candidate={c} 
+                    parties={props.parties}
+                    onCandidateChanged={handleCandidateChanged} 
+                    onCandidateRemoved={handleCandidateRemoved} />
+            )}
+        </div>
     );
 }
 

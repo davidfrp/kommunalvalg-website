@@ -1,4 +1,5 @@
-const apiUrl = 'http://localhost:8080';
+// const apiUrl = 'http://localhost:8080';
+const apiUrl = 'http://192.168.1.8:8080';
 const partyService = {
     findAll: () => {
         return fetch(apiUrl + '/parties')
